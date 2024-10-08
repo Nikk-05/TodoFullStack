@@ -8,23 +8,22 @@ const userSchema = new Schema({
         required : true,
         unique : true,
         index: true,
-        match : /^[a-zA-Z0-9]$/
+        match: /^[a-zA-Z0-9_]+$/
     },
     fullName:{
         type : String,
         required : true,
-        match : /^[a-zA-Z ]+$/
     },
     email:{
         type : String,
         required : true,
         unique : true,
-        match : /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/
     },
     password:{
         type : String,
         required : true,
         minlength : 8,
+        maxlength: 13
     },
     refreshToken:{
         type : String,
@@ -48,7 +47,7 @@ userSchema.methods.isPasswordValid = async (password) => {
 
 // Middleware to generate Access JWT token
 
-userSchema.methods.generateAccessToken = async () => {
+userSchema.methods.generateAccessToken = () => {
     return jwt.sign(
         {
             _id: this._id,
@@ -62,7 +61,7 @@ userSchema.methods.generateAccessToken = async () => {
 
 // Middleware to generate Refresh JWT token
 
-userSchema.methods.generateRefreshToken = async () => {
+userSchema.methods.generateRefreshToken = () => {
     return jwt.sign(
         {
             _id: this._id,
