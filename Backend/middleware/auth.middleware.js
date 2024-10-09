@@ -1,5 +1,5 @@
-import { APIError } from "../utils/APIError.js"
-import { asyncHandler } from "../utils/asyncHandler.js"
+import { APIError } from "../utilities/APIError.js"
+import { asyncHandler } from "../utilities/asyncHandler.js"
 import { User } from "../models/user.models.js"
 import jwt from "jsonwebtoken"
 
@@ -18,6 +18,7 @@ export const verifyJWT = asyncHandler(async (req, _, next) => {
         if (!user) {
             throw new APIError(401, "Invalid access Token")
         }
+        // To add a object of user to get user acces when he is logged in.
         req.user = user
         next()
     } catch (error) {

@@ -43,6 +43,7 @@ const userSignUp = asyncHandler(async (req, res, next) => {
 
 const userLogin = asyncHandler(async (req, res, next) => {
     const { username, password } = req.body
+    console.log(username, password)
     if ([username, password].some((field) => field?.trim() === "")) {
         throw new APIError(400, "All fields are required")
     }
@@ -70,4 +71,28 @@ const userLogin = asyncHandler(async (req, res, next) => {
 
 })
 
-export { userSignUp, userLogin }
+const userLogOut = asyncHandler( async (req,res, next) =>{
+    // Using middleware jwt verify we can add user object in req
+    await User.findOneAndUpdate(req.user._id,
+        {
+            $unset:{
+                refreshToken: 1 // This will remove the value from database
+            }
+        },
+        {
+            // It will return updated user object 
+            new : true
+        }
+    )
+
+    const options = {
+        httpOnly: true,
+        secure: true
+    }
+    return res.status(200)
+    .clearCookie("accessToken", options)
+    .clearCookie("refreshToken", options)
+    .json(new APIResponse(200,{}, "User Logged Out successfully"))
+})
+
+export { userSignUp, userLogin, userLogOut }
