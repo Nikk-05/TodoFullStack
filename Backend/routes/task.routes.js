@@ -11,6 +11,6 @@ router.route('/alltask').get(getAllTask)
 router.route('/createtask').post(createTask)
 router.route('/updatetask/:tid').patch(updateTask)
 router.route('/statusupdate/:tid').get(taskStatusUpdate)
-router.route('/deletetask/:tid').post(deleteTask)
+router.route('/deletetask/:tid').get(deleteTask)
 
 export default router

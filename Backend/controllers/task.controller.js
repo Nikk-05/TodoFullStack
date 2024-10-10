@@ -90,20 +90,17 @@ const taskStatusUpdate = asyncHandler(async (req, res, next) => {
 })
 
 const deleteTask = asyncHandler(async (req, res, next) => {
-    const taskId = req.params.id
+    const taskId = req.params.tid
     const user = await User.findById(req.user._id)
     if (!user) {
         throw new APIError(401, "User not authorized to delete task")
     }
-    const deletedTask = await Task.findByIdAndDelete(taskId)
-    if (!deletedTask) {
-        throw new APIError(404, "Task is not deleted successfully")
-    }
+    await Task.findByIdAndDelete(taskId)  // There is no return instance after deletion
     // Remove task id from the User model
     user.taskList = user.taskList.filter(task => task._id.toString() !== taskId)
-    await user.save()
+    await user.save({validateBeforeSave: false})
     return res.status(200).json(
-        new APIResponse(200, deletedTask, "Task deleted successfully")
+        new APIResponse(200, {},"Task deleted successfully")
     )
 })
 
