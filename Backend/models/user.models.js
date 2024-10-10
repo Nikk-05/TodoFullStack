@@ -28,7 +28,11 @@ const userSchema = new Schema({
     refreshToken:{
         type : String,
         default: null
-    }
+    },
+    taskList:[{
+        type: Schema.Types.ObjectId,
+        ref: "Task"
+    }]
 })
 
 // Middleware to hash the password
