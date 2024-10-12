@@ -1,0 +1,146 @@
+.container{
+    height: 100vh;
+    width: 100%;
+    background: linear-gradient(135deg, #4c2dd4 60%, purple);
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+}
+
+
+.frame{
+    display: flex;
+    height:170px;
+    width:400px;
+    background-color: #fff;
+    border-radius: 20px;
+    padding:20px; 
+    margin-top:120px;
+    position: relative;
+}
+
+.logo{
+    position: absolute;
+    top:30px;
+    font-size:1.5rem;
+    font-weight: 600;
+    color: #3e3535;
+}
+.logo i{
+    padding: 0 4px;
+    color:rgb(233, 130, 12);
+}
+
+.input-box{
+    position:absolute;
+    top:80px;
+    border:1px solid rgb(233, 130, 12);
+    height:40px;
+    width:350px;
+    display:flex;
+    border-radius:20px;
+    overflow:hidden;
+}
+
+.input-box input{
+    width:250px;
+    border-radius: 20px;
+    border:none;
+    outline: none;
+    font-size: 0.9rem;
+    padding:15px;
+  
+}
+
+.btn{
+    flex:1;
+    border:none;
+    background-color:rgb(233, 130, 12);
+    color:#fff;
+    font-weight: 500;
+    font-size:1rem;
+    border-radius: 20px;
+    cursor:pointer;
+    outline:none;
+}
+
+#task-list{
+    z-index: 999;
+    background-color:#fff;
+    width:400px;
+    height:auto;
+    position:absolute;
+    top:250px;
+    border-radius: 20px;
+    padding:15px;
+    /* border: 2px solid red; */
+}
+
+#list-box{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding:7px;
+}
+
+#list-box li{
+    width:310px;
+    list-style: none;
+    font-size: 1rem;
+    font-weight: 400; 
+}
+
+.check-circle{
+    color:rgb(233, 130, 12);
+}
+
+#list-box li.complete{
+    text-decoration: line-through;
+}
+
+.cross{
+    color: #312d2d;
+}
+
+
+@media screen and (max-width:430px){
+    
+    .frame{
+        height:170px;
+        width:350px;
+    }
+    .input-box{
+        height: 45px;
+        width: 310px;
+    }
+
+    .input-box input{
+        width:220px;
+        font-size: 1rem;
+        padding:13px;
+    }
+
+    .btn{
+        flex:1;
+        font-weight: 400;
+        font-size:1.2rem;
+    }
+
+    #task-list{
+        width:350px;
+        border-radius: 20px;
+        padding:15px;
+    }
+
+    #list-box{
+        padding:10px;
+    }
+
+    #list-box li{
+        width:280px;
+        list-style: none;
+        font-size: 1rem;
+        font-weight: 400; 
+        margin-left: 7px;
+    }
+}
