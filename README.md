@@ -5,7 +5,6 @@ A full-stack To-Do List application built with a React frontend and Node.js/Expr
   Project Overview
   Features
   Tech Stack
-  Setup and Installation
   Project Structure
   Usage
   API Endpoints
@@ -21,6 +20,7 @@ This To-Do List application is a responsive, user-friendly app that allows users
 Add, update, and delete tasks
 View tasks in a well-structured list with task details
 Receive notifications for success, warnings, and errors
+
 # Features
 User Authentication: Secure sign-up and login with validation.
 Task Management: Create, view, update, and delete tasks.
@@ -61,15 +61,15 @@ Sign In: Go to /signin to log in with an existing account.
 Dashboard: View and manage your tasks from the main dashboard after logging in.
 
 # API Endpoints
-User Routes
-POST /api/v1/users/signup: Register a new user.
-POST /api/v1/users/login: Authenticate a user and return a JWT.
+# User Routes :
+    POST /api/v1/users/signup: Register a new user.
+    POST /api/v1/users/login: Authenticate a user and return a JWT.
 
-# Task Routes
-GET /api/v1/tasks: Retrieve all tasks for a user.
-POST /api/v1/tasks: Create a new task.
-PUT /api/v1/tasks/:id: Update a specific task by ID.
-DELETE /api/v1/tasks/:id: Delete a specific task by ID.
+# Task Routes :
+    GET /api/v1/tasks: Retrieve all tasks for a user.
+    POST /api/v1/tasks: Create a new task.
+    PUT /api/v1/tasks/:id: Update a specific task by ID.
+    DELETE /api/v1/tasks/:id: Delete a specific task by ID.
 
 # Error Handling
 All errors are handled through a custom error handler (APIError). Errors are returned with a structured response:
@@ -80,5 +80,5 @@ Search and Filter: Allow users to search for specific tasks.
 Subtasks: Enable support for nested tasks.
 Reminders: Add due dates and reminder notifications.
 
-#License
+# License
 This project is licensed under the MIT License.
