@@ -39,20 +39,20 @@ Node.js (v14+)
 MongoDB (local or cloud)
 
 # Project Structure
-.
-├── backend
-│   ├── controllers
-│   ├── models
-│   ├── routes
-│   ├── middleware
-│   ├── utils
-│   └── index.js
-└── frontend
-    ├── public
-    ├── src
-    │   ├── components
-    │   ├── styles
-    │   └── App.js
+    .
+    ├── backend
+    │   ├── controllers
+    │   ├── models
+    │   ├── routes
+    │   ├── middleware
+    │   ├── utils
+    │   └── index.js
+    └── frontend
+        ├── public
+        ├── src
+        │   ├── components
+        │   ├── styles
+        │   └── App.js
 
     
 # Usage
