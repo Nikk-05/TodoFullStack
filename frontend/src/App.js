@@ -3,17 +3,16 @@ import LogIn from './components/Login.jsx'
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom"
 import SignUp from './components/SignUp.jsx'
 import Home from './components/Home.jsx'
+import House from './components/House.jsx'
 function App() {
   return (
     <>
-    <Home/>
-    <Router>
       <Routes>
-        {/* <Route exact path='/' element = {<SignIn/>} /> */}
-        <Route  path ='/signUp' element ={<SignUp/>}/>
+        <Route exact path='/' element = {<LogIn/>} />
+        <Route  path ='/signup' element ={<SignUp/>}/>
+        <Route  path ='/home' element ={<Home/>}/>
+        <Route path = '/house' element ={<House/>}/>
       </Routes>
-    </Router>
-    <SignUp/>
    </>
   )
 }

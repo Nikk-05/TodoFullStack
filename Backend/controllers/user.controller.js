@@ -18,7 +18,11 @@ const userSignUp = asyncHandler(async (req, res, next) => {
     })
     // User is already present   
     if (existedUser) {
-        throw new APIError(409, "User with email or username already exist, Please Login")
+        return res.status(401).json({
+            status: 401,
+            message: "User already exists",
+            errors: [],
+            success: false})
     }
     // Create User
     const user = await User.create({
