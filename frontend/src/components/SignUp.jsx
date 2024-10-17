@@ -14,8 +14,6 @@ const SignUp = () => {
     email: '',
     password: '',
   });
-  const [error, setError] = useState(null)
-
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: value });
@@ -23,10 +21,8 @@ const SignUp = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log('Form data submitted:', formData);
     axios.post('http://localhost:8000/api/v1/users/signup', formData)
       .then((response) => {
-        console.log(response)
         toast.success("User created successfully")
         // Redirect to the login page
        navigate("/login")

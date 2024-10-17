@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import { Link, useNavigate } from 'react-router-dom';
-import todoIcon from '../asset/todoIcon.svg'; // Replace with your image path
+import todoIcon from '../asset/todoIcon.svg';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
@@ -19,7 +19,6 @@ const LogIn = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
     // Add authentication logic here
-    console.log(loginData);
     axios.post('http://localhost:8000/api/v1/users/login',loginData,{withCredentials:true})
       .then((response) => {
         console.log(response.data)
@@ -30,8 +29,6 @@ const LogIn = () => {
       })
       .catch((error) => {
           const {message} = error.response.data
-          console.log(message)
-          console.log(error.response.data)
           toast.error(message || "Something went wrong! Please try again")
       })
   };

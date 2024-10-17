@@ -23,16 +23,6 @@ function Navbar() {
           className="text-3xl cursor-pointer hover:text-gray-200"
           onClick={handleUserIconClick}
         />
-        {showDropdown && (
-          <div className="absolute right-0 mt-2 w-40 bg-white text-gray-800 shadow-md rounded-md">
-            <button
-              onClick={() => alert('Signing out...')}
-              className="block w-full px-4 py-2 text-left hover:bg-indigo-500 hover:text-white transition-colors"
-            >
-              Sign Out
-            </button>
-          </div>
-        )}
       </div>
     </nav>
   );
