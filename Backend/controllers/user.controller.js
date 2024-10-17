@@ -19,17 +19,12 @@ const userSignUp = asyncHandler(async (req, res, next) => {
         })
         // User is already present   
         if (existedUser) {
-            return res.status(401).json({
-                status: 401,
-                message: "User already exists",
-                errors: [],
-                success: false
-            })
+            throw new APIError(409, "User with email or username already exist, Please Login")
         }
         // Create User
         const user = await User.create({
             fullName,
-            email,
+            email: email.toLowerCase(),
             password,
             username: username.toLowerCase()
         })
@@ -42,8 +37,8 @@ const userSignUp = asyncHandler(async (req, res, next) => {
             throw new APIError(500, "Something went wrong while registering the user")
         }
 
-        return res.status(201).json(
-            new APIResponse(201, createdUser, "User signed up successfully")
+        return res.status(200).json(
+            new APIResponse(200, createdUser, "User signed up successfully")
         )
     }
     catch (error) {
@@ -85,28 +80,27 @@ const userLogin = asyncHandler(async (req, res, next) => {
 })
 
 const userLogOut = asyncHandler(async (req, res, next) => {
-    try{
+    try {
         // Using middleware jwt verify we can add user object in req
-    await User.findOneAndUpdate(req.user._id,
-        {
-            $unset: {
-                refreshToken: 1 // This will remove the value from database
+        await User.findOneAndUpdate(req.user._id,
+            {
+                $unset: {
+                    refreshToken: 1 // This will remove the value from database
+                }
+            },
+            {
+                // It will return updated user object 
+                new: true
             }
-        },
-        {
-            // It will return updated user object 
-            new: true
+        )
+        const options = {
+            httpOnly: true,
+            secure: true
         }
-    )
-
-    const options = {
-        httpOnly: true,
-        secure: true
-    }
-    return res.status(200)
-        .clearCookie("accessToken", options)
-        .clearCookie("refreshToken", options)
-        .json(new APIResponse(200, {}, "User Logged Out successfully"))
+        return res.status(200)
+            .clearCookie("accessToken", options)
+            .clearCookie("refreshToken", options)
+            .json(new APIResponse(200, {}, "User Logged Out successfully"))
     }
     catch (error) {
         next(error)
@@ -114,9 +108,9 @@ const userLogOut = asyncHandler(async (req, res, next) => {
 })
 
 const getUserTask = asyncHandler(async (req, res, next) => {
-    try{
+    try {
         const user = await User.findById(req.user._id)
-        if(!user){
+        if (!user) {
             throw new APIError(404, "User not found")
         }
         const userTasks = await User.aggregate([
@@ -133,15 +127,41 @@ const getUserTask = asyncHandler(async (req, res, next) => {
             },
         ])
 
-        if(!userTasks){
+        if (!userTasks) {
             throw new APIError(404, "User's task not found")
         }
         return res.status(200)
-        .json(new APIResponse(200, {fullName: userTasks[0].fullName, taskList: userTasks[0].tasks}, "User's task fetched successfully"))
+            .json(new APIResponse(200, { fullName: userTasks[0].fullName, taskList: userTasks[0].tasks }, "User's task fetched successfully"))
     }
     catch (error) {
         next(error)
     }
-}) 
+})
 
-export { userSignUp, userLogin, userLogOut, getUserTask }
+const resetPassword = asyncHandler(async (req, res, next) => {
+    // Get email, new password, confirm password
+    // Validate email that user is authenticated or not
+    // Validate password and confirm password
+    // Generate new password hash
+    // Update user password hash
+    try {
+        const { email, newPassword, confirmPassword } = req.body
+        if (!email || !newPassword || !confirmPassword) {
+            throw new APIError(400, "All fields are required")
+        }
+        const user = await User.findOne({ email: email.toLowerCase() })
+        if (!user) {
+            throw new APIError(404, "User not found")
+        }
+        user.password = newPassword;
+        user.save({ validateBeforeSave: false })
+        return res.status(200)
+            .json(new APIResponse(200, {}, "Password reset successfully"))
+    }
+    catch (error) {
+        next(error)
+    }
+
+})
+
+export { userSignUp, userLogin, userLogOut, getUserTask, resetPassword }

@@ -9,69 +9,72 @@ import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
 function Home() {
-  const [user, setUser] = useState("")
-  const [tasks, setTasks] = useState([
-    {
-      id:'',
-      title: "Sample Task",
-      description: "This is a sample task description"
-    }
-  ])
-  useEffect(() => {
-    console.log("useEffect run")
-    axios.get('http://localhost:8000/api/v1/users/usertask', { withCredentials: true })
-      .then((res) => {
-        console.log(res.data.data.taskList)
-        setUser(res.data.data.fullName)
-        setTasks(res.data.data.taskList)
-        console.log(tasks)
-      })
-      .catch((err) => console.log(err))
-  }, [])
-
   const navigate = useNavigate()
+  const [user, setUser] = useState("")
+  const [tasks, setTasks] = useState([])
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [showDropdown, setShowDropdown] = useState(false);
 
+  // For intitial rendering to get data from backend
+  useEffect(() => {
+    fetchTasks()
+  }, [])
+
+  const fetchTasks = () => {
+    axios.get('http://localhost:8000/api/v1/users/user-task', { withCredentials: true })
+      .then((res) => {
+        const { fullName, taskList } = res.data.data
+        setUser(fullName)
+        setTasks(taskList)
+      })
+      .catch((err) => console.log(err)
+      )
+  }
   const addTask = () => {
     if (title && description) {
-      setTasks([...tasks, { id: tasks.length + 1, title, description }]);
-      setTitle("");
-      setDescription("");
-      toast.success("Your task added");
+      axios.post('http://localhost:8000/api/v1/tasks/create-task/', { title: title, description: description }, { withCredentials: true })
+        .then((response) => {
+          setTasks([...tasks, response.data.data])
+          setTitle("")
+          setDescription("")
+          toast.success("Your task added");
+        })
+        .catch((error) => {
+          toast.error(error.message || "An error occurred, please try again.")
+        })
     }
   };
 
   const handleSignOut = () => {
     // Implement sign out logic here
-    console.log("Sign out button clicked");
     axios.get('http://localhost:8000/api/v1/users/logout', { withCredentials: true })
       .then((res) => {
-        console.log(res)
         navigate('/login')
       })
       .catch((error) => {
-        console.log(error)
         toast.error(error.message || "Failed to sign out")
       })
   };
-  const handleEditTask = (id) => {
+  const handleEditTask = (_id) => {
     // Implement task edit logic here
 
   };
-  const handleDeleteTask = (id) => {
+  const handleDeleteTask = (_id) => {
     // Implement task delete logic here
-  };
-
-  const deleteTask = (id) => {
-    setTasks(tasks.filter((task) => task.id !== id));
+    axios.get(`http://localhost:8000/api/v1/tasks/delete-task/${_id}`, { withCredentials: true })
+      .then((response) => {
+        toast.success(response.data.message);
+        fetchTasks();
+      })
+      .catch((error) => {
+        toast.error(error.message);
+      })
   };
 
   const handleUserIconClick = () => {
     setShowDropdown(!showDropdown);
   };
-
 
   return (
     <>
@@ -87,7 +90,7 @@ function Home() {
             />
             {showDropdown && (
               <div className="absolute right-0 mt-2 w-40 bg-white shadow-lg rounded-md overflow-hidden">
-                <h2 className="block w-full px-4 py-2 text-gray-700 transition-colors">{user}</h2>
+                <h2 className="block w-full px-4 py-2 text-center border-y-2">{user}</h2>
                 <button
                   onClick={handleSignOut}
                   className="block w-full px-4 py-2 text-gray-700 hover:bg-indigo-500 hover:text-white transition-colors"
@@ -128,7 +131,7 @@ function Home() {
           {tasks ? (
             tasks.map((task) => (
               <div
-                key={task.id}
+                key={task._id}
                 className="bg-white p-5 rounded-lg shadow-lg border border-gray-200 flex flex-col justify-between relative hover:shadow-2xl transition-shadow duration-300 text-justify"
               >
                 <h2 className="text-lg font-semibold text-gray-800">{task.title}</h2>
@@ -140,7 +143,7 @@ function Home() {
                     title="Edit Task"
                   />
                   <AiFillDelete
-                    onClick={handleDeleteTask}
+                    onClick={() => handleDeleteTask(task._id)}
                     className="h-5 w-5 text-red-500 cursor-pointer hover:text-red-600"
                     title="Delete Task"
                   />

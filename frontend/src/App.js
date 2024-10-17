@@ -3,7 +3,7 @@ import Login from './components/Login.jsx'
 import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom"
 import SignUp from './components/SignUp.jsx'
 import Home from './components/Home.jsx'
-import House from './components/House.jsx'
+import ResetPassword from './components/ResetPassword.jsx'
 function App() {
   return (
     <>
@@ -13,7 +13,7 @@ function App() {
         <Route path="/" element={<Navigate to = "/login" replace />} /> 
         <Route  path ='/signup' element ={<SignUp/>}/>
         <Route  path ='/home' element ={<Home/>}/>
-        <Route path = '/house' element ={<House/>}/>
+        <Route path = 'resetpassword' element ={<ResetPassword/>}/>
       </Routes>
    </>
   )
