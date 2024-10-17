@@ -64,7 +64,6 @@ userSchema.methods.generateAccessToken = function(){
 }
 
 // Middleware to generate Refresh JWT token
-
 userSchema.methods.generateRefreshToken = function(){
     return jwt.sign(
         {

@@ -1,11 +1,13 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import todoIcon from '../asset/todoIcon.svg'
 import axios from 'axios'
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
+
 const SignUp = () => {
+  const navigate = useNavigate();
   const [formData, setFormData] = useState({
     username: '',
     fullName: '',
@@ -26,6 +28,8 @@ const SignUp = () => {
       .then((response) => {
         console.log(response)
         toast.success("User created successfully")
+        // Redirect to the login page
+       navigate("/login")
       })
       .catch((error) => {
         // Check if the error has a response object
@@ -35,7 +39,6 @@ const SignUp = () => {
           toast.error(data.message || "An error occurred, please try again.");
         } else {
           // If no response is available, log or handle a generic error
-          // console.error("Network or unexpected error:", error.message);
           toast.error(error.message || "Network error, please try again later.");
         }
       })
@@ -136,7 +139,6 @@ const SignUp = () => {
         </p>
       </div>
     </div>
-
   );
 };
 
