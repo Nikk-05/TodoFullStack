@@ -104,7 +104,6 @@ root
     ├── public
     ├── src
     │   ├── components
-    │   ├── pages
     │   ├── App.js
     │   └── index.js
     └── tailwind.config.js
